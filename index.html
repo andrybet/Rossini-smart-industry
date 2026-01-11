@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Rossini - Smart Industry</title>
     
-    <link rel="icon" type="image/png" href="img/Simbolo rossini b.png">
+    <link rel="icon" type="image/png" href="img/Simbolo-rossini-b.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
 
@@ -25,6 +25,8 @@
             display: flex; flex-direction: column;
         }
 
+        img { pointer-events: none; -webkit-user-drag: none; }
+
         /* --- PRELOADER --- */
         #preloader {
             position: fixed; inset: 0; background-color: var(--bg-deep);
@@ -33,13 +35,15 @@
         }
         .loader-wrap { position: relative; display: flex; justify-content: center; align-items: center; width: 150px; height: 150px; }
         .back-glow { position: absolute; width: 10px; height: 10px; background: var(--gold-glow); border-radius: 50%; box-shadow: 0 0 65px 35px var(--gold-glow); opacity: 0; animation: glowPulse 4s ease-in-out infinite 1s; z-index: 1; }
+        
         .logo-mask {
             position: relative; width: 65px; height: 65px; opacity: 0; transform: scale(0.9);
             animation: elegantReveal 2.5s forwards 0.5s;
-            -webkit-mask: url('img/Simbolo rossini b.png') center/contain no-repeat;
-            mask: url('img/Simbolo rossini b.png') center/contain no-repeat;
+            -webkit-mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat;
+            mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat;
             background-color: #ffffff; z-index: 2;
         }
+        
         @keyframes elegantReveal { to { opacity: 1; transform: scale(1); } }
         @keyframes glowPulse { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.3); } }
         .loaded #preloader { opacity: 0; visibility: hidden; }
@@ -60,7 +64,7 @@
         h1 { margin: 0; font-size: 1.3rem; font-weight: 700; letter-spacing: 5px; color: #000; text-transform: uppercase; }
         .subtitle { margin: 15px auto 0; font-size: 0.85rem; font-weight: 400; color: #555; line-height: 1.5; }
 
-        /* --- TASTI --- */
+        /* --- BOTTONI --- */
         .btn-container { display: flex; flex-direction: column; gap: 12px; width: 100%; }
         .btn {
             position: relative; display: flex; align-items: center; justify-content: center;
@@ -92,15 +96,19 @@
         .pc { --c1: #004a99; --c2: #001a33; }
         .em { --c1: #ea4335; --c2: #7b1b14; }
 
-        /* --- OVERLAY --- */
+        /* --- OVERLAY & FLIP --- */
         #ripple { position: fixed; width: 2px; height: 2px; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%) scale(0); transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         #ripple.expanding { transform: translate(-50%, -50%) scale(1500); }
-        #overlay-content { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.5s ease; perspective: 1000px; }
-        .close-overlay { position: absolute; top: calc(20px + env(safe-area-inset-top)); right: 25px; color: white; font-size: 1.8rem; cursor: pointer; z-index: 10001; }
-        .flip-card { position: relative; width: 75px; height: 75px; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
-        .flip-card.is-flipped { transform: rotateY(180deg); }
+        
+        #overlay-content { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.7s ease; perspective: 1000px; }
+        .close-overlay { position: absolute; top: calc(20px + env(safe-area-inset-top)); right: 25px; color: white; font-size: 1.8rem; cursor: pointer; z-index: 10001; opacity: 0.7; }
+
+        .flip-card { position: relative; width: 85px; height: 85px; transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; opacity: 0; transform: scale(0.5); }
+        .flip-card.show-logo { opacity: 1; transform: scale(1); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .flip-card.is-flipped { transform: rotateY(180deg) scale(1.1); }
+        
         .flip-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; }
-        .flip-front img { width: 85%; height: 85%; }
+        .flip-front img { width: 90%; height: 90%; object-fit: contain; }
         .flip-back { transform: rotateY(180deg); }
         .flip-back i { font-size: 60px; color: white; }
         .icon-outline-overlay { color: transparent !important; -webkit-text-stroke: 3px white !important; font-weight: 900; }
@@ -112,30 +120,26 @@
     <div id="ripple"></div>
 
     <div class="main-wrapper">
-        <div class="logo-top"><img src="img/logo rossini orizzontale.png" alt="Rossini" class="logo"></div>
+        <div class="logo-top"><img src="img/logo-rossini-orizzontale.png" alt="Rossini" class="logo"></div>
         <div class="main-content">
             <div class="content-group">
                 <div class="text-block">
                     <h1>BENVENUTO</h1>
-                    <p class="subtitle">Soluzioni innovative per l'industria intelligente. Entra in contatto con noi.</p>
+                    <p class="subtitle">Ottimizza la tua produzione. Scegli il canale che preferisci per iniziare a parlarne.</p>
                 </div>
                 <div class="btn-container">
-                    
                     <div class="btn tl" onclick="launchApp('tel:3470780437', this, 'linear-gradient(135deg, #25D366, #128C7E)', 'fas fa-phone icon-outline-overlay')">
                         <div class="neon-border"></div><div class="neon-aura"></div>
                         <i class="fas fa-phone icon-outline-btn"></i> Telefono
                     </div>
-                    
                     <div class="btn pc" onclick="launchApp('https://mail.google.com/mail/u/0/?view=cm&fs=1&to=rossinisalvatore7@pec.it', this, 'linear-gradient(135deg, #004a99, #001a33)', 'far fa-envelope-open')">
                         <div class="neon-border"></div><div class="neon-aura"></div>
                         <i class="far fa-envelope-open"></i> PEC
                     </div>
-                    
                     <div class="btn em" onclick="launchApp('https://mail.google.com/mail/u/0/?view=cm&fs=1&to=rossinisalvatore7@gmail.com', this, 'linear-gradient(135deg, #ea4335, #c5221f)', 'far fa-envelope')">
                         <div class="neon-border"></div><div class="neon-aura"></div>
                         <i class="far fa-envelope"></i> Email
                     </div>
-
                 </div>
             </div>
         </div>
@@ -144,13 +148,15 @@
     <div id="overlay-content">
         <div class="close-overlay" onclick="resetPage()"><i class="fas fa-times"></i></div>
         <div class="flip-card" id="card">
-            <div class="flip-face flip-front"><img src="img/Simbolo rossini b.png" alt="Rossini"></div>
+            <div class="flip-face flip-front"><img src="img/Simbolo-rossini-b.png" alt="Rossini"></div>
             <div class="flip-face flip-back"><i id="overlay-icon"></i></div>
         </div>
     </div>
 
     <script>
         window.addEventListener('load', () => { setTimeout(() => { document.body.classList.add('loaded'); }, 3000); });
+
+        let appTimer; // Variabile globale per poter annullare l'apertura se si preme X
 
         function launchApp(url, btn, gradient, iconClass) {
             const ripple = document.getElementById('ripple');
@@ -159,33 +165,52 @@
             const overlayIcon = document.getElementById('overlay-icon');
             const rect = btn.getBoundingClientRect();
 
-            // 1. Ripple immediato
             ripple.style.left = (rect.left + rect.width / 2) + 'px';
             ripple.style.top = (rect.top + rect.height / 2) + 'px';
             ripple.style.background = gradient;
             ripple.classList.add('expanding');
             btn.classList.add('active-click');
 
-            // 2. Mostra Overlay
             setTimeout(() => {
                 overlay.style.display = 'flex';
                 overlayIcon.className = iconClass;
+                
                 setTimeout(() => { 
                     overlay.style.opacity = '1'; 
-                    card.classList.add('is-flipped');
-                }, 50);
+                    card.classList.add('show-logo');
+                }, 100);
 
-                // 3. DOPO 2.5 SECONDI (tempo del flip) apriamo il link
-                // Usiamo window.open per "ingannare" Chrome facendogli credere sia un nuovo intento
                 setTimeout(() => {
-                    window.location.assign(url);
-                }, 2500);
+                    card.classList.add('is-flipped');
+                    
+                    // Lancio dell'app ritardato per godersi il flip lento
+                    appTimer = setTimeout(() => {
+                        window.location.assign(url);
+                    }, 1400);
 
-            }, 400);
+                }, 1500);
+
+            }, 500);
         }
 
         function resetPage() {
-            location.reload();
+            // 1. Annulla l'apertura dell'app
+            clearTimeout(appTimer);
+
+            const overlay = document.getElementById('overlay-content');
+            const ripple = document.getElementById('ripple');
+            const card = document.getElementById('card');
+            const buttons = document.querySelectorAll('.btn');
+
+            // 2. Fai sparire l'overlay dolcemente
+            overlay.style.opacity = '0';
+            
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                ripple.classList.remove('expanding');
+                card.classList.remove('is-flipped', 'show-logo');
+                buttons.forEach(b => b.classList.remove('active-click'));
+            }, 700);
         }
     </script>
 </body>
