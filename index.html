@@ -59,7 +59,6 @@
         
         .main-content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; width: 100%; justify-content: flex-start; }
         
-        /* Larghezza basata sul sottotitolo */
         .content-group { width: 100%; max-width: 320px; display: flex; flex-direction: column; align-items: center; }
         
         .text-block { margin-top: 15vh; margin-bottom: 60px; width: 100%; }
@@ -76,9 +75,9 @@
         }
 
         /* Feedback Click */
-        .btn.clicked-state.tl { background: var(--grad-tl) !important; color: #fff !important; border-color: transparent !important; }
-        .btn.clicked-state.pc { background: var(--grad-pc) !important; color: #fff !important; border-color: transparent !important; }
-        .btn.clicked-state.em { background: var(--grad-em) !important; color: #fff !important; border-color: transparent !important; }
+        .btn.clicked-state.tl { background: var(--grad-tl) !important; color: #fff !important; border-color: transparent !important; animation: none !important; }
+        .btn.clicked-state.pc { background: var(--grad-pc) !important; color: #fff !important; border-color: transparent !important; animation: none !important; }
+        .btn.clicked-state.em { background: var(--grad-em) !important; color: #fff !important; border-color: transparent !important; animation: none !important; }
 
         /* ICONE */
         .btn i { margin-right: 12px; font-size: 1.1rem; width: 24px; text-align: center; }
@@ -89,18 +88,33 @@
         }
         .btn.clicked-state .fa-phone-custom { -webkit-text-stroke: 1.5px #fff !important; }
 
-        /* --- NEON --- */
+        /* --- ANIMAZIONI SINCRONIZZATE --- */
+        @keyframes rotateAngle { to { --angle: 360deg; } }
+        
+        /* Gestisce l'opacità del bordo neon */
+        @keyframes opacitySequence { 0%, 25%, 100% { opacity: 0; } 5%, 20% { opacity: 1; } }
+        
+        /* Gestisce la scomparsa del bordo nero del tasto */
+        @keyframes borderFade { 0%, 25%, 100% { border-color: #000; } 5%, 20% { border-color: transparent; } }
+
+        /* Sincronizzazione per ogni tasto */
+        .loaded .btn:nth-child(1) { animation: borderFade 8s infinite 0s; }
+        .loaded .btn:nth-child(1) .neon-border { animation: opacitySequence 8s infinite 0s; }
+
+        .loaded .btn:nth-child(2) { animation: borderFade 8s infinite 2.6s; }
+        .loaded .btn:nth-child(2) .neon-border { animation: opacitySequence 8s infinite 2.6s; }
+
+        .loaded .btn:nth-child(3) { animation: borderFade 8s infinite 5.2s; }
+        .loaded .btn:nth-child(3) .neon-border { animation: opacitySequence 8s infinite 5.2s; }
+
+        /* --- NEON BORDER --- */
         .neon-border {
             position: absolute; inset: -2.5px; border-radius: 14.5px; padding: 2.5px; z-index: -2; opacity: 0; overflow: hidden;
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor; mask-composite: exclude;
         }
         .neon-border::before { content: ''; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: conic-gradient(from var(--angle), var(--c1), var(--c2), var(--c1)); animation: rotateAngle 1.2s linear infinite; }
-        @keyframes rotateAngle { to { --angle: 360deg; } }
-        @keyframes opacitySequence { 0%, 25%, 100% { opacity: 0; } 5%, 20% { opacity: 1; } }
-        .loaded .btn:nth-child(1) .neon-border { animation: opacitySequence 8s infinite 0s; }
-        .loaded .btn:nth-child(2) .neon-border { animation: opacitySequence 8s infinite 2.6s; }
-        .loaded .btn:nth-child(3) .neon-border { animation: opacitySequence 8s infinite 5.2s; }
+        
         .tl-colors { --c1: #25D366; --c2: #128C7E; }
         .pc-colors { --c1: #004a99; --c2: #001a33; }
         .em-colors { --c1: #ea4335; --c2: #7b1b14; }
@@ -172,7 +186,6 @@
 
             btn.classList.add('clicked-state');
 
-            // Tempo ridotto (400ms) tra click ed esplosione
             setTimeout(() => {
                 ripple.style.left = (rect.left + rect.width / 2) + 'px';
                 ripple.style.top = (rect.top + rect.height / 2) + 'px';
