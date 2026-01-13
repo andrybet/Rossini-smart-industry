@@ -31,14 +31,14 @@
             display: flex; justify-content: center;
         }
 
-        /* --- PATTERN: VISIBILITÀ TOTALE --- */
+        /* --- PATTERN: ANCORATO AI 3 BORDI --- */
         .bottom-pattern {
             position: fixed;
             bottom: 0; left: 0; right: 0;
             width: 100%;
-            height: 25vh; /* Spazio dedicato al pattern */
+            height: 25vh; 
             background-image: url('img/pattern-1.png');
-            background-size: contain; /* Garantisce che si veda la fine in alto del PNG */
+            background-size: contain; 
             background-position: bottom center;
             background-repeat: no-repeat;
             z-index: 1;
@@ -63,26 +63,26 @@
             position: relative; z-index: 10; opacity: 0; transform: translateY(10px); 
             transition: all 1s cubic-bezier(0.22, 1, 0.36, 1) 1.5s; 
             width: 80%; 
-            height: 70vh; /* Lascia spazio libero per il pattern sotto */
+            height: 70vh; 
             display: flex; flex-direction: column; align-items: flex-start; 
             padding-top: calc(4vh + env(safe-area-inset-top)); 
             box-sizing: border-box;
         }
         body.loaded .main-wrapper { opacity: 1; transform: translateY(0); }
 
-        /* MISURE PROPORZIONALI ALL'ALTEZZA (VH) */
+        /* MISURE DINAMICHE */
         .logo-top { width: 100%; margin-bottom: 4vh; text-align: left; }
         .logo { width: clamp(100px, 15vh, 130px); height: auto; }
         
         h1 { margin: 0; font-size: clamp(1.1rem, 3.2vh, 1.45rem); font-weight: 600; color: #000; text-transform: uppercase; line-height: 1.2; max-width: 250px; }
-        .subtitle-top { font-size: clamp(0.7rem, 1.7vh, 0.85rem); font-weight: 300; color: #666; margin: 0.8vh 0 3vh; }
+        .subtitle-top { font-size: clamp(0.7rem, 1.7vh, 0.8rem); font-weight: 300; color: #666; margin: 0.8vh 0 3vh; }
         
-        .section-title { font-size: clamp(0.75rem, 1.8vh, 0.85rem); font-weight: 600; color: #000; margin-bottom: 0.2vh; }
-        .subtitle-main { font-size: clamp(0.75rem, 1.8vh, 0.85rem); font-weight: 300; color: #000; line-height: 1.4; margin-bottom: 3.5vh; margin-top: 0.5vh; }
+        .section-title { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 600; color: #000; margin-bottom: 0.2vh; }
+        .subtitle-main { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 300; color: #000; line-height: 1.4; margin-bottom: 3.5vh; margin-top: 0.5vh; }
         
-        .btn-label { font-size: clamp(0.75rem, 1.8vh, 0.85rem); font-weight: 600; color: #000; margin-bottom: 1.2vh; text-transform: lowercase; }
+        .btn-label { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 600; color: #000; margin-bottom: 1.2vh; text-transform: lowercase; }
 
-        /* TASTI PROPORZIONALI */
+        /* BOTTONI PROPORZIONALI */
         .btn-container { display: flex; flex-direction: column; gap: 1.5vh; width: 100%; }
         .btn {
             position: relative; display: flex; align-items: center; justify-content: center;
@@ -93,7 +93,7 @@
         }
         .btn i { margin-right: 12px; font-size: 1.1em; width: 22px; text-align: center; }
 
-        /* OVERLAY E LOGICA INTERNA */
+        /* --- OVERLAY --- */
         #overlay-content { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.5s; background: rgba(0,0,0,0.05); }
         .close-overlay { position: absolute; top: 40px; right: 30px; color: white; font-size: 2.2rem; cursor: pointer; z-index: 10001; opacity: 0; transform: scale(0.5); user-select: none; -webkit-user-select: none; pointer-events: none; }
         #overlay-content.active .close-overlay { animation: syncFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.2s; pointer-events: auto; }
@@ -104,15 +104,17 @@
         .flip-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; }
         .flip-front img { width: 90%; }
         .flip-back i { font-size: 60px; color: #fff !important; }
+
         .fa-phone-custom { color: transparent !important; -webkit-text-stroke: 1.2px #000; font-weight: 900; }
         .btn.clicked-state { border-color: transparent; color: #fff; }
         #ripple { position: fixed; width: 1px; height: 1px; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%) scale(0); transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         #ripple.expanding { transform: translate(-50%, -50%) scale(4500); }
 
-        /* NEON LOGIC */
+        /* --- NEON LOGIC --- */
         .glow-cloud { position: absolute; inset: 0; border-radius: 16px; z-index: -2; opacity: 0; transition: opacity 0.5s; }
         .neon-border { position: absolute; inset: -2px; border-radius: 18px; padding: 2px; z-index: -1; opacity: 0; overflow: hidden; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
         .neon-border::before { content: ''; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: conic-gradient(from var(--angle), var(--c1), var(--c2), var(--c1)); animation: rotateAngle 1.5s linear infinite; }
+        @keyframes rotateAngle { to { --angle: 360deg; } }
         @keyframes neonMaster { 0%, 25%, 100% { opacity: 0; } 5%, 20% { opacity: 1; } }
         @keyframes glowCloudMaster { 0%, 25%, 100% { opacity: 0; box-shadow: none; } 5%, 20% { opacity: 1; box-shadow: 0 0 10px 3px var(--glow-color); } }
         body.loaded .btn:nth-child(1) .neon-border { animation: neonMaster 9s infinite 3s; --c1: #25D366; --c2: #128C7E; }
