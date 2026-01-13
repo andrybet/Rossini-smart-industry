@@ -7,7 +7,7 @@
     
     <link rel="icon" type="image/png" href="img/Simbolo-rossini-b.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -18,137 +18,139 @@
             --grad-tl: linear-gradient(135deg, #25D366, #128C7E);
             --grad-pc: linear-gradient(135deg, #004a99, #001a33);
             --grad-em: linear-gradient(135deg, #ea4335, #c5221f);
+            --custom-bg: #e4dacd;
         }
 
         @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
 
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: var(--custom-bg);
             font-family: 'Montserrat', sans-serif;
             overflow: hidden; -webkit-user-select: none; user-select: none;
-            background-color: #ffffff;
-        }
-
-        /* --- SFONDO PATTERN DEFINITIVO --- */
-        .pattern-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            /* Percorso immagine e stile */
-            background-image: url('img/pattern.png');
-            background-repeat: repeat; /* Se è un pattern si ripete */
-            background-size: auto;    /* Mantieni dimensione originale del pattern */
-            background-position: center;
-            opacity: 0.12;           /* Opacità bassa per eleganza */
-            z-index: 0;               /* Sopra il bianco, sotto i contenuti */
-            pointer-events: none;
+            display: flex; flex-direction: column; align-items: center;
         }
 
         /* --- PRELOADER --- */
         #preloader {
             position: fixed; inset: 0; background-color: var(--bg-deep);
             display: flex; justify-content: center; align-items: center; z-index: 30000;
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
         }
         .loader-wrap { position: relative; display: flex; justify-content: center; align-items: center; width: 150px; height: 150px; }
-        .back-glow { position: absolute; width: 15px; height: 15px; background: var(--gold-brand); border-radius: 50%; box-shadow: 0 0 70px 35px var(--gold-glow); opacity: 0; animation: glowFadeIn 4s ease-in-out infinite 2.2s; z-index: 1; }
-        .logo-mask { position: relative; width: 65px; height: 65px; opacity: 0; transform: scale(0.85); animation: logoFadeIn 1.5s forwards 0.5s; -webkit-mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat; mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat; background-color: #ffffff; z-index: 2; }
-        @keyframes logoFadeIn { to { opacity: 1; transform: scale(1); } }
+        .back-glow { position: absolute; width: 15px; height: 15px; background: var(--gold-brand); border-radius: 50%; box-shadow: 0 0 70px 35px var(--gold-glow); opacity: 0; animation: glowFadeIn 3s ease-in-out infinite 1s; }
+        .logo-mask { position: relative; width: 65px; height: 65px; opacity: 0; transform: scale(0.8); animation: logoFadeInPre 1.2s forwards 0.3s; -webkit-mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat; mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat; background-color: #ffffff; z-index: 2; }
+        @keyframes logoFadeInPre { to { opacity: 1; transform: scale(1); } }
         @keyframes glowFadeIn { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
-        .loaded #preloader { opacity: 0; visibility: hidden; transition-delay: 1.2s; }
+        body.loaded #preloader { opacity: 0; visibility: hidden; }
 
         /* --- LAYOUT --- */
-        .main-wrapper { 
-            position: relative; z-index: 10;
-            opacity: 0; transform: translateY(10px); transition: all 1s ease 1.8s; 
-            height: 100%; display: flex; flex-direction: column; align-items: center; 
-            padding: calc(20px + env(safe-area-inset-top)) 20px 40px; 
-            box-sizing: border-box; text-align: center; 
+        .bottom-pattern {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 25vh; 
+            background-image: url('img/pattern-1.png');
+            background-size: contain; background-position: bottom center;
+            background-repeat: no-repeat; z-index: 1; pointer-events: none;
         }
-        .loaded .main-wrapper { opacity: 1; transform: translateY(0); }
-        .logo-top { width: 100%; margin-bottom: 20px; flex-shrink: 0; }
-        .logo { width: 115px; height: auto; margin: 0 auto; }
-        .content-group { width: 100%; max-width: 330px; display: flex; flex-direction: column; align-items: center; }
-        .text-block { margin-top: 10vh; margin-bottom: 45px; width: 100%; }
-        h1 { margin: 0; font-size: 1.3rem; font-weight: 700; letter-spacing: 5px; color: #000; text-transform: uppercase; }
-        .subtitle { margin: 12px auto 0; font-size: 0.85rem; color: #555; line-height: 1.5; width: 100%; }
+
+        .main-wrapper { 
+            position: relative; z-index: 10; opacity: 0; transform: translateY(15px); 
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1) 1s; 
+            width: 80%; height: 100%; 
+            display: flex; flex-direction: column; align-items: flex-start; 
+            padding: calc(50px + env(safe-area-inset-top)) 0 40px; box-sizing: border-box;
+        }
+        body.loaded .main-wrapper { opacity: 1; transform: translateY(0); }
+
+        .logo-top { width: 100%; margin-bottom: 45px; text-align: left; }
+        .logo { width: 130px; height: auto; }
+        
+        .content-group { width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
+        
+        h1 { margin: 0; font-size: 1.45rem; font-weight: 600; color: #000; text-transform: uppercase; line-height: 1.2; max-width: 250px; }
+        .subtitle-top { font-size: 0.8rem; font-weight: 300; color: #666; margin: 8px 0 25px; }
+        
+        .section-title { font-size: 0.8rem; font-weight: 600; color: #000; margin-bottom: 2px; }
+        .subtitle-main { font-size: 0.8rem; font-weight: 300; color: #000; line-height: 1.4; margin-bottom: 30px; margin-top: 6px; }
+        
+        .btn-label { font-size: 0.8rem; font-weight: 600; color: #000; margin-bottom: 12px; text-transform: lowercase; }
 
         /* --- BOTTONI --- */
-        .btn-container { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+        .btn-container { display: flex; flex-direction: column; gap: 18px; width: 100%; }
         .btn {
             position: relative; display: flex; align-items: center; justify-content: center;
-            padding: 16px; border-radius: 12px; border: 1px solid #000;
-            background-color: rgba(255, 255, 255, 0.95); 
-            color: #000; font-size: 0.95rem; cursor: pointer;
-            transition: all 0.3s ease; z-index: 10; width: 100%; box-sizing: border-box;
-            overflow: visible !important;
+            padding: 14px; border-radius: 18px; border: 0.6px solid #000; 
+            background-color: var(--custom-bg); color: #000; 
+            font-size: 1rem; font-weight: 300; letter-spacing: 0.5px;
+            cursor: pointer; transition: all 0.3s; z-index: 10; width: 100%; box-sizing: border-box;
         }
+        .btn i { margin-right: 12px; font-size: 1rem; width: 24px; text-align: center; }
 
-        .glow-cloud { position: absolute; inset: 0; border-radius: 12px; z-index: -2; opacity: 0; transition: opacity 0.5s ease; }
-        .neon-border { position: absolute; inset: -3px; border-radius: 14px; padding: 3px; z-index: -1; opacity: 0; overflow: hidden; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+        /* --- NEON --- */
+        .glow-cloud { position: absolute; inset: 0; border-radius: 18px; z-index: -2; opacity: 0; transition: opacity 0.5s; }
+        .neon-border { position: absolute; inset: -2px; border-radius: 20px; padding: 2px; z-index: -1; opacity: 0; overflow: hidden; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
         .neon-border::before { content: ''; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: conic-gradient(from var(--angle), var(--c1), var(--c2), var(--c1)); animation: rotateAngle 1.5s linear infinite; }
-
         @keyframes rotateAngle { to { --angle: 360deg; } }
         @keyframes neonMaster { 0%, 25%, 100% { opacity: 0; } 5%, 20% { opacity: 1; } }
-        @keyframes glowCloudMaster { 0%, 25%, 100% { opacity: 0; box-shadow: none; } 5%, 20% { opacity: 1; box-shadow: 0 0 15px 5px var(--glow-color); } }
+        @keyframes glowCloudMaster { 0%, 25%, 100% { opacity: 0; box-shadow: none; } 5%, 20% { opacity: 1; box-shadow: 0 0 10px 3px var(--glow-color); } }
 
-        .loaded .btn:nth-child(1) .neon-border { animation: neonMaster 9s infinite 3s; --c1: #25D366; --c2: #128C7E; }
-        .loaded .btn:nth-child(1) .glow-cloud { animation: glowCloudMaster 9s infinite 3s; --glow-color: rgba(37, 211, 102, 0.25); }
-        .loaded .btn:nth-child(2) .neon-border { animation: neonMaster 9s infinite 6s; --c1: #004a99; --c2: #001a33; }
-        .loaded .btn:nth-child(2) .glow-cloud { animation: glowCloudMaster 9s infinite 6s; --glow-color: rgba(0, 74, 153, 0.25); }
-        .loaded .btn:nth-child(3) .neon-border { animation: neonMaster 9s infinite 9s; --c1: #ea4335; --c2: #7b1b14; }
-        .loaded .btn:nth-child(3) .glow-cloud { animation: glowCloudMaster 9s infinite 9s; --glow-color: rgba(234, 67, 53, 0.25); }
+        body.loaded .btn:nth-child(1) .neon-border { animation: neonMaster 9s infinite 3s; --c1: #25D366; --c2: #128C7E; }
+        body.loaded .btn:nth-child(1) .glow-cloud { animation: glowCloudMaster 9s infinite 3s; --glow-color: rgba(37, 211, 102, 0.25); }
+        body.loaded .btn:nth-child(2) .neon-border { animation: neonMaster 9s infinite 6s; --c1: #ea4335; --c2: #7b1b14; }
+        body.loaded .btn:nth-child(2) .glow-cloud { animation: glowCloudMaster 9s infinite 6s; --glow-color: rgba(234, 67, 53, 0.25); }
+        body.loaded .btn:nth-child(3) .neon-border { animation: neonMaster 9s infinite 9s; --c1: #004a99; --c2: #001a33; }
+        body.loaded .btn:nth-child(3) .glow-cloud { animation: glowCloudMaster 9s infinite 9s; --glow-color: rgba(0, 74, 153, 0.25); }
 
-        .btn.clicked-state { border-color: transparent !important; }
-        .btn.clicked-state.tl { background: var(--grad-tl) !important; color: #fff !important; }
-        .btn.clicked-state.pc { background: var(--grad-pc) !important; color: #fff !important; }
-        .btn.clicked-state.em { background: var(--grad-em) !important; color: #fff !important; }
+        /* --- OVERLAY --- */
+        #overlay-content { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.5s; background: rgba(0,0,0,0.05); }
+        .close-overlay { position: absolute; top: 40px; right: 30px; color: white; font-size: 2.2rem; cursor: pointer; z-index: 10001; opacity: 0; transform: scale(0.5); user-select: none; -webkit-user-select: none; pointer-events: none; }
+        #overlay-content.active .close-overlay { animation: syncFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.2s; pointer-events: auto; }
+        @keyframes syncFadeIn { to { opacity: 1; transform: scale(1); } }
 
-        .btn i { margin-right: 12px; font-size: 1.1rem; width: 24px; text-align: center; }
-        .fa-phone-custom { color: transparent !important; -webkit-text-stroke: 1.5px #000; font-weight: 900; }
-        .btn.clicked-state .fa-phone-custom { -webkit-text-stroke: 1.5px #fff !important; }
-
-        #ripple { position: fixed; width: 1px; height: 1px; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%) scale(0); transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        #ripple.expanding { transform: translate(-50%, -50%) scale(4000); }
-        #overlay-content { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.5s; }
-        .close-overlay { position: absolute; top: 40px; right: 30px; color: white; font-size: 2rem; cursor: pointer; z-index: 10001; }
-        .flip-card { position: relative; width: 90px; height: 90px; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; opacity: 0; transform: scale(0.5); }
+        .flip-card { position: relative; width: 90px; height: 90px; transition: transform 0.6s ease; transform-style: preserve-3d; opacity: 0; transform: scale(0.5); }
         .flip-card.show-logo { opacity: 1; transform: scale(1); }
         .flip-card.is-flipped { transform: rotateY(180deg) scale(1.1); }
         .flip-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; }
         .flip-front img { width: 90%; }
         .flip-back i { font-size: 60px; color: #fff !important; }
+
+        .fa-phone-custom { color: transparent !important; -webkit-text-stroke: 1.2px #000; font-weight: 900; }
+        .btn.clicked-state { border-color: transparent; color: #fff; }
+        #ripple { position: fixed; width: 1px; height: 1px; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%) scale(0); transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        #ripple.expanding { transform: translate(-50%, -50%) scale(4500); }
     </style>
 </head>
 <body>
 
-    <div class="pattern-bg"></div>
-
-    <div id="preloader"><div class="loader-wrap"><div class="back-glow"></div><div class="logo-mask"></div></div></div>
+    <div id="preloader">
+        <div class="loader-wrap">
+            <div class="back-glow"></div>
+            <div class="logo-mask"></div>
+        </div>
+    </div>
     
+    <div class="bottom-pattern"></div>
     <div id="ripple"></div>
 
     <div class="main-wrapper">
         <div class="logo-top"><img src="img/logo-rossini-orizzontale.png" class="logo" alt="Rossini"></div>
-        <div class="main-content">
-            <div class="content-group">
-                <div class="text-block">
-                    <h1>BENVENUTO</h1>
-                    <p class="subtitle">Ottimizza la tua produzione. Scegli il canale che preferisci per iniziare a parlarne.</p>
+        <div class="content-group">
+            <h1>SISTEMI DI SUPPORTO ALL'INDUSTRIA</h1>
+            <p class="subtitle-top">Innovazione e tecnologia</p>
+            <p class="section-title">Contatto Diretto</p>
+            <p class="subtitle-main">Sono a tua completa disposizione per studiare e realizzare la migliore soluzione per la tua azienda industriale.</p>
+            <p class="btn-label">contattami</p>
+            <div class="btn-container">
+                <div class="btn tl" onclick="launchApp('tel:3470780437', this, 'var(--grad-tl)', 'fas fa-phone')">
+                    <div class="glow-cloud"></div><div class="neon-border"></div>
+                    <i class="fas fa-phone fa-phone-custom"></i> TELEFONO
                 </div>
-                <div class="btn-container">
-                    <div class="btn tl" onclick="launchApp('tel:3470780437', this, 'var(--grad-tl)', 'fas fa-phone')">
-                        <div class="glow-cloud"></div><div class="neon-border"></div>
-                        <i class="fas fa-phone fa-phone-custom"></i> Telefono
-                    </div>
-                    <div class="btn pc" onclick="launchApp('mailto:rossinisalvatore7@pec.it', this, 'var(--grad-pc)', 'far fa-envelope-open')">
-                        <div class="glow-cloud"></div><div class="neon-border"></div>
-                        <i class="far fa-envelope-open"></i> PEC
-                    </div>
-                    <div class="btn em" onclick="launchApp('mailto:rossinisalvatore7@gmail.com', this, 'var(--grad-em)', 'far fa-envelope')">
-                        <div class="glow-cloud"></div><div class="neon-border"></div>
-                        <i class="far fa-envelope"></i> Email
-                    </div>
+                <div class="btn em" onclick="launchApp('mailto:rossinisalvatore7@gmail.com', this, 'var(--grad-em)', 'far fa-envelope')">
+                    <div class="glow-cloud"></div><div class="neon-border"></div>
+                    <i class="far fa-envelope"></i> EMAIL
+                </div>
+                <div class="btn pc" onclick="launchApp('mailto:rossinisalvatore7@pec.it', this, 'var(--grad-pc)', 'far fa-envelope-open')">
+                    <div class="glow-cloud"></div><div class="neon-border"></div>
+                    <i class="far fa-envelope-open"></i> PEC
                 </div>
             </div>
         </div>
@@ -157,13 +159,15 @@
     <div id="overlay-content">
         <div class="close-overlay" onclick="resetPage()"><i class="fas fa-times"></i></div>
         <div class="flip-card" id="card">
-            <div class="flip-face flip-front"><img src="img/Simbolo-rossini-b.png" alt="Rossini"></div>
+            <div class="flip-face flip-front"><img src="img/Simbolo-rossini-b.png"></div>
             <div class="flip-face flip-back" style="transform: rotateY(180deg);"><i id="overlay-icon"></i></div>
         </div>
     </div>
 
     <script>
-        window.addEventListener('load', () => { setTimeout(() => document.body.classList.add('loaded'), 3000); });
+        window.addEventListener('load', () => { 
+            setTimeout(() => { document.body.classList.add('loaded'); }, 2500); 
+        });
 
         let appTimer;
 
@@ -177,6 +181,10 @@
             btn.style.borderColor = "transparent";
             btn.classList.add('clicked-state');
 
+            if(gradient.includes('tl')) btn.style.background = 'var(--grad-tl)';
+            if(gradient.includes('pc')) btn.style.background = 'var(--grad-pc)';
+            if(gradient.includes('em')) btn.style.background = 'var(--grad-em)';
+
             setTimeout(() => {
                 ripple.style.left = (rect.left + rect.width / 2) + 'px';
                 ripple.style.top = (rect.top + rect.height / 2) + 'px';
@@ -186,12 +194,12 @@
 
                 setTimeout(() => {
                     overlay.style.display = 'flex';
+                    overlay.classList.add('active');
                     overlayIcon.className = iconClass;
                     setTimeout(() => { overlay.style.opacity = '1'; card.classList.add('show-logo'); }, 50);
-                    
                     setTimeout(() => {
                         card.classList.add('is-flipped');
-                        appTimer = setTimeout(() => { window.location.href = url; }, 700);
+                        appTimer = setTimeout(() => { window.location.href = url; }, 1500);
                     }, 600);
                 }, 400);
             }, 300); 
@@ -199,13 +207,16 @@
 
         function resetPage() {
             clearTimeout(appTimer);
-            document.getElementById('overlay-content').style.opacity = '0';
+            const overlay = document.getElementById('overlay-content');
+            overlay.style.opacity = '0';
+            overlay.classList.remove('active');
             setTimeout(() => {
-                document.getElementById('overlay-content').style.display = 'none';
+                overlay.style.display = 'none';
                 document.getElementById('ripple').classList.remove('expanding');
                 document.getElementById('card').classList.remove('is-flipped', 'show-logo');
                 document.querySelectorAll('.btn').forEach(b => {
                     b.classList.remove('clicked-state');
+                    b.style.background = 'var(--custom-bg)';
                     b.style.borderColor = "#000";
                 });
             }, 500);
