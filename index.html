@@ -12,7 +12,8 @@
     <style>
         :root {
             --bg-deep: #1b1f2b;
-            --gold-glow: rgba(198, 167, 99, 0.35);
+            --gold-brand: #c6a763;
+            --gold-glow: rgba(198, 167, 99, 0.4);
             --angle: 0deg;
             --grad-tl: linear-gradient(135deg, #25D366, #128C7E);
             --grad-pc: linear-gradient(135deg, #004a99, #001a33);
@@ -23,126 +24,112 @@
 
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #fff; font-family: 'Montserrat', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             overflow: hidden; -webkit-user-select: none; user-select: none;
-            display: flex; flex-direction: column;
+            background-color: #ffffff;
         }
 
-        img { pointer-events: none; -webkit-user-drag: none; }
+        /* --- SFONDO PATTERN DEFINITIVO --- */
+        .pattern-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            /* Percorso immagine e stile */
+            background-image: url('img/pattern.png');
+            background-repeat: repeat; /* Se è un pattern si ripete */
+            background-size: auto;    /* Mantieni dimensione originale del pattern */
+            background-position: center;
+            opacity: 0.12;           /* Opacità bassa per eleganza */
+            z-index: 0;               /* Sopra il bianco, sotto i contenuti */
+            pointer-events: none;
+        }
 
         /* --- PRELOADER --- */
         #preloader {
             position: fixed; inset: 0; background-color: var(--bg-deep);
             display: flex; justify-content: center; align-items: center; z-index: 30000;
-            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.5s;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
         }
-        .logo-mask {
-            position: relative; width: 65px; height: 65px; opacity: 0; transform: scale(0.9);
-            animation: elegantReveal 2.5s forwards 0.5s;
-            -webkit-mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat;
-            mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat;
-            background-color: #ffffff; z-index: 2;
-        }
-        @keyframes elegantReveal { to { opacity: 1; transform: scale(1); } }
-        .loaded #preloader { opacity: 0; visibility: hidden; }
+        .loader-wrap { position: relative; display: flex; justify-content: center; align-items: center; width: 150px; height: 150px; }
+        .back-glow { position: absolute; width: 15px; height: 15px; background: var(--gold-brand); border-radius: 50%; box-shadow: 0 0 70px 35px var(--gold-glow); opacity: 0; animation: glowFadeIn 4s ease-in-out infinite 2.2s; z-index: 1; }
+        .logo-mask { position: relative; width: 65px; height: 65px; opacity: 0; transform: scale(0.85); animation: logoFadeIn 1.5s forwards 0.5s; -webkit-mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat; mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat; background-color: #ffffff; z-index: 2; }
+        @keyframes logoFadeIn { to { opacity: 1; transform: scale(1); } }
+        @keyframes glowFadeIn { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
+        .loaded #preloader { opacity: 0; visibility: hidden; transition-delay: 1.2s; }
 
         /* --- LAYOUT --- */
-        .main-wrapper {
-            opacity: 0; transform: scale(0.99); transition: all 1s ease 0.8s;
-            height: 100%; display: flex; flex-direction: column; align-items: center;
-            padding: calc(20px + env(safe-area-inset-top)) 20px 40px;
-            box-sizing: border-box; text-align: center;
+        .main-wrapper { 
+            position: relative; z-index: 10;
+            opacity: 0; transform: translateY(10px); transition: all 1s ease 1.8s; 
+            height: 100%; display: flex; flex-direction: column; align-items: center; 
+            padding: calc(20px + env(safe-area-inset-top)) 20px 40px; 
+            box-sizing: border-box; text-align: center; 
         }
-        .loaded .main-wrapper { opacity: 1; transform: scale(1); }
+        .loaded .main-wrapper { opacity: 1; transform: translateY(0); }
         .logo-top { width: 100%; margin-bottom: 20px; flex-shrink: 0; }
-        .logo { width: 120px; height: auto; margin: 0 auto; }
-        
-        .main-content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; width: 100%; justify-content: flex-start; }
-        
-        .content-group { width: 100%; max-width: 320px; display: flex; flex-direction: column; align-items: center; }
-        
-        .text-block { margin-top: 15vh; margin-bottom: 60px; width: 100%; }
+        .logo { width: 115px; height: auto; margin: 0 auto; }
+        .content-group { width: 100%; max-width: 330px; display: flex; flex-direction: column; align-items: center; }
+        .text-block { margin-top: 10vh; margin-bottom: 45px; width: 100%; }
         h1 { margin: 0; font-size: 1.3rem; font-weight: 700; letter-spacing: 5px; color: #000; text-transform: uppercase; }
-        .subtitle { margin: 15px auto 0; font-size: 0.85rem; color: #555; line-height: 1.5; display: inline-block; width: 100%; }
+        .subtitle { margin: 12px auto 0; font-size: 0.85rem; color: #555; line-height: 1.5; width: 100%; }
 
         /* --- BOTTONI --- */
-        .btn-container { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+        .btn-container { display: flex; flex-direction: column; gap: 20px; width: 100%; }
         .btn {
             position: relative; display: flex; align-items: center; justify-content: center;
             padding: 16px; border-radius: 12px; border: 1px solid #000;
-            background-color: #ffffff; color: #000; font-size: 0.95rem; cursor: pointer;
-            transition: all 0.2s ease; z-index: 10; width: 100%; box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.95); 
+            color: #000; font-size: 0.95rem; cursor: pointer;
+            transition: all 0.3s ease; z-index: 10; width: 100%; box-sizing: border-box;
+            overflow: visible !important;
         }
 
-        /* Feedback Click */
-        .btn.clicked-state.tl { background: var(--grad-tl) !important; color: #fff !important; border-color: transparent !important; animation: none !important; }
-        .btn.clicked-state.pc { background: var(--grad-pc) !important; color: #fff !important; border-color: transparent !important; animation: none !important; }
-        .btn.clicked-state.em { background: var(--grad-em) !important; color: #fff !important; border-color: transparent !important; animation: none !important; }
+        .glow-cloud { position: absolute; inset: 0; border-radius: 12px; z-index: -2; opacity: 0; transition: opacity 0.5s ease; }
+        .neon-border { position: absolute; inset: -3px; border-radius: 14px; padding: 3px; z-index: -1; opacity: 0; overflow: hidden; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+        .neon-border::before { content: ''; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: conic-gradient(from var(--angle), var(--c1), var(--c2), var(--c1)); animation: rotateAngle 1.5s linear infinite; }
 
-        /* ICONE */
+        @keyframes rotateAngle { to { --angle: 360deg; } }
+        @keyframes neonMaster { 0%, 25%, 100% { opacity: 0; } 5%, 20% { opacity: 1; } }
+        @keyframes glowCloudMaster { 0%, 25%, 100% { opacity: 0; box-shadow: none; } 5%, 20% { opacity: 1; box-shadow: 0 0 15px 5px var(--glow-color); } }
+
+        .loaded .btn:nth-child(1) .neon-border { animation: neonMaster 9s infinite 3s; --c1: #25D366; --c2: #128C7E; }
+        .loaded .btn:nth-child(1) .glow-cloud { animation: glowCloudMaster 9s infinite 3s; --glow-color: rgba(37, 211, 102, 0.25); }
+        .loaded .btn:nth-child(2) .neon-border { animation: neonMaster 9s infinite 6s; --c1: #004a99; --c2: #001a33; }
+        .loaded .btn:nth-child(2) .glow-cloud { animation: glowCloudMaster 9s infinite 6s; --glow-color: rgba(0, 74, 153, 0.25); }
+        .loaded .btn:nth-child(3) .neon-border { animation: neonMaster 9s infinite 9s; --c1: #ea4335; --c2: #7b1b14; }
+        .loaded .btn:nth-child(3) .glow-cloud { animation: glowCloudMaster 9s infinite 9s; --glow-color: rgba(234, 67, 53, 0.25); }
+
+        .btn.clicked-state { border-color: transparent !important; }
+        .btn.clicked-state.tl { background: var(--grad-tl) !important; color: #fff !important; }
+        .btn.clicked-state.pc { background: var(--grad-pc) !important; color: #fff !important; }
+        .btn.clicked-state.em { background: var(--grad-em) !important; color: #fff !important; }
+
         .btn i { margin-right: 12px; font-size: 1.1rem; width: 24px; text-align: center; }
-        .fa-phone-custom { 
-            color: transparent !important; 
-            -webkit-text-stroke: 1.5px #000; 
-            font-weight: 900; 
-        }
+        .fa-phone-custom { color: transparent !important; -webkit-text-stroke: 1.5px #000; font-weight: 900; }
         .btn.clicked-state .fa-phone-custom { -webkit-text-stroke: 1.5px #fff !important; }
 
-        /* --- ANIMAZIONI SINCRONIZZATE --- */
-        @keyframes rotateAngle { to { --angle: 360deg; } }
-        
-        /* Gestisce l'opacità del bordo neon */
-        @keyframes opacitySequence { 0%, 25%, 100% { opacity: 0; } 5%, 20% { opacity: 1; } }
-        
-        /* Gestisce la scomparsa del bordo nero del tasto */
-        @keyframes borderFade { 0%, 25%, 100% { border-color: #000; } 5%, 20% { border-color: transparent; } }
-
-        /* Sincronizzazione per ogni tasto */
-        .loaded .btn:nth-child(1) { animation: borderFade 8s infinite 0s; }
-        .loaded .btn:nth-child(1) .neon-border { animation: opacitySequence 8s infinite 0s; }
-
-        .loaded .btn:nth-child(2) { animation: borderFade 8s infinite 2.6s; }
-        .loaded .btn:nth-child(2) .neon-border { animation: opacitySequence 8s infinite 2.6s; }
-
-        .loaded .btn:nth-child(3) { animation: borderFade 8s infinite 5.2s; }
-        .loaded .btn:nth-child(3) .neon-border { animation: opacitySequence 8s infinite 5.2s; }
-
-        /* --- NEON BORDER --- */
-        .neon-border {
-            position: absolute; inset: -2.5px; border-radius: 14.5px; padding: 2.5px; z-index: -2; opacity: 0; overflow: hidden;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-        }
-        .neon-border::before { content: ''; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: conic-gradient(from var(--angle), var(--c1), var(--c2), var(--c1)); animation: rotateAngle 1.2s linear infinite; }
-        
-        .tl-colors { --c1: #25D366; --c2: #128C7E; }
-        .pc-colors { --c1: #004a99; --c2: #001a33; }
-        .em-colors { --c1: #ea4335; --c2: #7b1b14; }
-
-        /* --- RIPPLE --- */
-        #ripple { position: fixed; width: 2px; height: 2px; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%) scale(0); transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        #ripple.expanding { transform: translate(-50%, -50%) scale(1500); }
-
-        /* --- OVERLAY --- */
-        #overlay-content { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.5s; perspective: 1000px; }
+        #ripple { position: fixed; width: 1px; height: 1px; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%) scale(0); transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        #ripple.expanding { transform: translate(-50%, -50%) scale(4000); }
+        #overlay-content { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.5s; }
         .close-overlay { position: absolute; top: 40px; right: 30px; color: white; font-size: 2rem; cursor: pointer; z-index: 10001; }
-        
-        .flip-card { position: relative; width: 90px; height: 90px; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; opacity: 0; transform: scale(0.5); }
+        .flip-card { position: relative; width: 90px; height: 90px; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; opacity: 0; transform: scale(0.5); }
         .flip-card.show-logo { opacity: 1; transform: scale(1); }
         .flip-card.is-flipped { transform: rotateY(180deg) scale(1.1); }
         .flip-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; }
-        .flip-front img { width: 95%; height: 95%; object-fit: contain; }
-        .flip-back { transform: rotateY(180deg); }
-        .flip-back i { font-size: 65px; color: #fff !important; }
+        .flip-front img { width: 90%; }
+        .flip-back i { font-size: 60px; color: #fff !important; }
     </style>
 </head>
 <body>
 
-    <div id="preloader"><div class="logo-mask"></div></div>
+    <div class="pattern-bg"></div>
+
+    <div id="preloader"><div class="loader-wrap"><div class="back-glow"></div><div class="logo-mask"></div></div></div>
+    
     <div id="ripple"></div>
 
     <div class="main-wrapper">
-        <div class="logo-top"><img src="img/logo-rossini-orizzontale.png" class="logo"></div>
+        <div class="logo-top"><img src="img/logo-rossini-orizzontale.png" class="logo" alt="Rossini"></div>
         <div class="main-content">
             <div class="content-group">
                 <div class="text-block">
@@ -151,13 +138,16 @@
                 </div>
                 <div class="btn-container">
                     <div class="btn tl" onclick="launchApp('tel:3470780437', this, 'var(--grad-tl)', 'fas fa-phone')">
-                        <div class="neon-border tl-colors"></div><i class="fas fa-phone fa-phone-custom"></i> Telefono
+                        <div class="glow-cloud"></div><div class="neon-border"></div>
+                        <i class="fas fa-phone fa-phone-custom"></i> Telefono
                     </div>
                     <div class="btn pc" onclick="launchApp('mailto:rossinisalvatore7@pec.it', this, 'var(--grad-pc)', 'far fa-envelope-open')">
-                        <div class="neon-border pc-colors"></div><i class="far fa-envelope-open"></i> PEC
+                        <div class="glow-cloud"></div><div class="neon-border"></div>
+                        <i class="far fa-envelope-open"></i> PEC
                     </div>
                     <div class="btn em" onclick="launchApp('mailto:rossinisalvatore7@gmail.com', this, 'var(--grad-em)', 'far fa-envelope')">
-                        <div class="neon-border em-colors"></div><i class="far fa-envelope"></i> Email
+                        <div class="glow-cloud"></div><div class="neon-border"></div>
+                        <i class="far fa-envelope"></i> Email
                     </div>
                 </div>
             </div>
@@ -167,13 +157,13 @@
     <div id="overlay-content">
         <div class="close-overlay" onclick="resetPage()"><i class="fas fa-times"></i></div>
         <div class="flip-card" id="card">
-            <div class="flip-face flip-front"><img src="img/Simbolo-rossini-b.png"></div>
-            <div class="flip-face flip-back"><i id="overlay-icon"></i></div>
+            <div class="flip-face flip-front"><img src="img/Simbolo-rossini-b.png" alt="Rossini"></div>
+            <div class="flip-face flip-back" style="transform: rotateY(180deg);"><i id="overlay-icon"></i></div>
         </div>
     </div>
 
     <script>
-        window.addEventListener('load', () => { setTimeout(() => { document.body.classList.add('loaded'); }, 2500); });
+        window.addEventListener('load', () => { setTimeout(() => document.body.classList.add('loaded'), 3000); });
 
         let appTimer;
 
@@ -184,6 +174,7 @@
             const overlayIcon = document.getElementById('overlay-icon');
             const rect = btn.getBoundingClientRect();
 
+            btn.style.borderColor = "transparent";
             btn.classList.add('clicked-state');
 
             setTimeout(() => {
@@ -200,10 +191,10 @@
                     
                     setTimeout(() => {
                         card.classList.add('is-flipped');
-                        appTimer = setTimeout(() => { window.location.href = url; }, 800);
-                    }, 800);
+                        appTimer = setTimeout(() => { window.location.href = url; }, 700);
+                    }, 600);
                 }, 400);
-            }, 400); 
+            }, 300); 
         }
 
         function resetPage() {
@@ -213,7 +204,10 @@
                 document.getElementById('overlay-content').style.display = 'none';
                 document.getElementById('ripple').classList.remove('expanding');
                 document.getElementById('card').classList.remove('is-flipped', 'show-logo');
-                document.querySelectorAll('.btn').forEach(b => b.classList.remove('clicked-state'));
+                document.querySelectorAll('.btn').forEach(b => {
+                    b.classList.remove('clicked-state');
+                    b.style.borderColor = "#000";
+                });
             }, 500);
         }
     </script>
