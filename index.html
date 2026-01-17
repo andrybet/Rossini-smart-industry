@@ -31,21 +31,14 @@
             display: flex; justify-content: center;
         }
 
-        /* --- PATTERN: ANCORATO AI 3 BORDI --- */
         .bottom-pattern {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            width: 100%;
-            height: 25vh; 
+            position: fixed; bottom: 0; left: 0; right: 0;
+            width: 100%; height: 25vh; 
             background-image: url('img/pattern-1.png');
-            background-size: contain; 
-            background-position: bottom center;
-            background-repeat: no-repeat;
-            z-index: 1;
-            pointer-events: none;
+            background-size: contain; background-position: bottom center;
+            background-repeat: no-repeat; z-index: 1; pointer-events: none;
         }
 
-        /* --- PRELOADER --- */
         #preloader {
             position: fixed; inset: 0; background-color: var(--bg-deep);
             display: flex; justify-content: center; align-items: center; z-index: 30000;
@@ -58,7 +51,6 @@
         @keyframes glowFadeIn { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
         body.loaded #preloader { opacity: 0; visibility: hidden; }
 
-        /* --- MAIN WRAPPER: ADATTAMENTO LIQUIDO --- */
         .main-wrapper { 
             position: relative; z-index: 10; opacity: 0; transform: translateY(10px); 
             transition: all 1s cubic-bezier(0.22, 1, 0.36, 1) 1.5s; 
@@ -70,32 +62,41 @@
         }
         body.loaded .main-wrapper { opacity: 1; transform: translateY(0); }
 
-        /* MISURE DINAMICHE */
-        .logo-top { width: 100%; margin-bottom: 4vh; text-align: left; }
+        /* --- BLOCCO INTESTAZIONE (LOGO + PIVA) --- */
+        .header-block { margin-bottom: 5vh; width: 100%; text-align: left; }
         .logo { width: clamp(100px, 15vh, 130px); height: auto; }
+        .piva-text { font-size: 0.6rem; color: #888; letter-spacing: 1px; margin-top: 5px; font-weight: 300; }
         
+        /* --- TESTI --- */
+        .text-block-1 { margin-bottom: 4vh; }
         h1 { margin: 0; font-size: clamp(1.1rem, 3.2vh, 1.45rem); font-weight: 600; color: #000; text-transform: uppercase; line-height: 1.2; max-width: 250px; }
-        .subtitle-top { font-size: clamp(0.7rem, 1.7vh, 0.8rem); font-weight: 300; color: #666; margin: 0.8vh 0 3vh; }
+        .subtitle-top { font-size: clamp(0.7rem, 1.7vh, 0.8rem); font-weight: 300; color: #666; margin: 2px 0 0; }
         
-        .section-title { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 600; color: #000; margin-bottom: 0.2vh; }
-        .subtitle-main { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 300; color: #000; line-height: 1.4; margin-bottom: 3.5vh; margin-top: 0.5vh; }
+        .text-block-2 { margin-bottom: 4vh; }
+        .section-title { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 600; color: #000; margin-bottom: 0px; }
+        .subtitle-main { 
+            font-size: clamp(0.75rem, 1.8vh, 0.8rem); 
+            font-weight: 300; color: #000; line-height: 1.4; margin-top: 2px;
+            max-width: 220px;
+        }
         
-        .btn-label { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 600; color: #000; margin-bottom: 1.2vh; text-transform: lowercase; }
+        .content-group { width: 100%; }
+        .btn-label { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 600; color: #000; margin-bottom: 8px; text-transform: lowercase; }
 
-        /* BOTTONI PROPORZIONALI */
-        .btn-container { display: flex; flex-direction: column; gap: 1.5vh; width: 100%; }
+        /* --- BOTTONI (80% container) --- */
+        .btn-container { display: flex; flex-direction: column; gap: 1.2vh; width: 100%; }
         .btn {
             position: relative; display: flex; align-items: center; justify-content: center;
-            padding: 1.6vh 15px; border-radius: 16px; border: 0.6px solid #000; 
+            padding: 1.4vh 15px; border-radius: 16px; border: 0.6px solid #000; 
             background-color: var(--custom-bg); color: #000; 
-            font-size: clamp(0.85rem, 1.9vh, 1rem); font-weight: 300; letter-spacing: 0.5px;
+            font-size: 0.9rem; font-weight: 300; letter-spacing: 0.5px;
             cursor: pointer; transition: all 0.3s; z-index: 10; width: 100%; box-sizing: border-box;
         }
-        .btn i { margin-right: 12px; font-size: 1.1em; width: 22px; text-align: center; }
+        .btn i { margin-right: 12px; font-size: 0.9rem; width: 20px; text-align: center; }
 
         /* --- OVERLAY --- */
         #overlay-content { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.5s; background: rgba(0,0,0,0.05); }
-        .close-overlay { position: absolute; top: 40px; right: 30px; color: white; font-size: 2.2rem; cursor: pointer; z-index: 10001; opacity: 0; transform: scale(0.5); user-select: none; -webkit-user-select: none; pointer-events: none; }
+        .close-overlay { position: absolute; top: 40px; right: 30px; color: white; font-size: 2.2rem; cursor: pointer; z-index: 10001; opacity: 0; transform: scale(0.5); user-select: none; pointer-events: none; }
         #overlay-content.active .close-overlay { animation: syncFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.2s; pointer-events: auto; }
         @keyframes syncFadeIn { to { opacity: 1; transform: scale(1); } }
         .flip-card { position: relative; width: 90px; height: 90px; transition: transform 0.6s ease; transform-style: preserve-3d; opacity: 0; transform: scale(0.5); }
@@ -110,7 +111,7 @@
         #ripple { position: fixed; width: 1px; height: 1px; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%) scale(0); transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         #ripple.expanding { transform: translate(-50%, -50%) scale(4500); }
 
-        /* --- NEON LOGIC --- */
+        /* --- NEON --- */
         .glow-cloud { position: absolute; inset: 0; border-radius: 16px; z-index: -2; opacity: 0; transition: opacity 0.5s; }
         .neon-border { position: absolute; inset: -2px; border-radius: 18px; padding: 2px; z-index: -1; opacity: 0; overflow: hidden; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
         .neon-border::before { content: ''; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: conic-gradient(from var(--angle), var(--c1), var(--c2), var(--c1)); animation: rotateAngle 1.5s linear infinite; }
@@ -128,16 +129,27 @@
 <body>
 
     <div id="preloader"><div class="loader-wrap"><div class="back-glow"></div><div class="logo-mask"></div></div></div>
+    
     <div class="bottom-pattern"></div>
     <div id="ripple"></div>
 
     <div class="main-wrapper">
-        <div class="logo-top"><img src="img/logo-rossini-orizzontale.png" class="logo" alt="Rossini"></div>
-        <div class="content-group">
-            <h1>SISTEMI DI SUPPORTO ALL'INDUSTRIA</h1>
+        <div class="header-block">
+            <img src="img/logo-rossini-orizzontale.png" class="logo" alt="Rossini">
+            <div class="piva-text">P.IVA 04235680362</div>
+        </div>
+        
+        <div class="text-block-1">
+            <h1>SOLUZIONI EFFICACI PER LA TUA REALTà</h1>
             <p class="subtitle-top">Innovazione e tecnologia</p>
+        </div>
+
+        <div class="text-block-2">
             <p class="section-title">Contatto Diretto</p>
-            <p class="subtitle-main">Sono a tua completa disposizione per realizzare la migliore soluzione per la tua azienda industriale.</p>
+            <p class="subtitle-main">Realizziamo la migliore soluzione per la tua azienda</p>
+        </div>
+
+        <div class="content-group">
             <p class="btn-label">contattami</p>
             <div class="btn-container">
                 <div class="btn tl" onclick="launchApp('tel:3470780437', this, 'var(--grad-tl)', 'fas fa-phone')">
@@ -148,7 +160,7 @@
                     <div class="glow-cloud"></div><div class="neon-border"></div>
                     <i class="far fa-envelope"></i> EMAIL
                 </div>
-                <div class="btn pc" onclick="launchApp('mailto:rossinisalvatore7@pec.it', this, 'var(--grad-pc)', 'far fa-envelope-open')">
+                <div class="btn pc" onclick="launchApp('mailto:rossinismart@pec.it', this, 'var(--grad-pc)', 'far fa-envelope-open')">
                     <div class="glow-cloud"></div><div class="neon-border"></div>
                     <i class="far fa-envelope-open"></i> PEC
                 </div>
