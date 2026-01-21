@@ -7,218 +7,231 @@
     
     <link rel="icon" type="image/png" href="img/Simbolo-rossini-b.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --bg-deep: #1b1f2b;
             --gold-brand: #c6a763;
             --gold-glow: rgba(198, 167, 99, 0.4);
-            --angle: 0deg;
+            --custom-bg: #e4dacd;
             --grad-tl: linear-gradient(135deg, #25D366, #128C7E);
             --grad-pc: linear-gradient(135deg, #004a99, #001a33);
             --grad-em: linear-gradient(135deg, #ea4335, #c5221f);
-            --custom-bg: #e4dacd;
+            --angle: 0deg;
         }
 
-        @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: var(--custom-bg);
-            font-family: 'Montserrat', sans-serif;
-            overflow: hidden; -webkit-user-select: none; user-select: none;
-            display: flex; justify-content: center;
+        /* Necessario per far girare il neon sui tasti mobile */
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
         }
 
-        .bottom-pattern {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            width: 100%; height: 25vh; 
-            background-image: url('img/pattern-1.png');
-            background-size: contain; background-position: bottom center;
-            background-repeat: no-repeat; z-index: 1; pointer-events: none;
-        }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: var(--custom-bg); font-family: 'Montserrat', sans-serif; overflow: hidden; -webkit-user-select: none; user-select: none; }
 
-        #preloader {
-            position: fixed; inset: 0; background-color: var(--bg-deep);
-            display: flex; justify-content: center; align-items: center; z-index: 30000;
-            transition: opacity 0.8s ease-out, visibility 0.8s;
-        }
-        .loader-wrap { position: relative; display: flex; justify-content: center; align-items: center; width: 150px; height: 150px; }
-        .back-glow { position: absolute; width: 15px; height: 15px; background: var(--gold-brand); border-radius: 50%; box-shadow: 0 0 70px 35px var(--gold-glow); opacity: 0; animation: glowFadeIn 3s ease-in-out infinite 1s; }
-        .logo-mask { position: relative; width: 65px; height: 65px; opacity: 0; transform: scale(0.8); animation: logoFadeInPre 1.2s forwards 0.3s; -webkit-mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat; mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat; background-color: #ffffff; z-index: 2; }
-        @keyframes logoFadeInPre { to { opacity: 1; transform: scale(1); } }
-        @keyframes glowFadeIn { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
+        /* --- PRELOADER --- */
+        #preloader { position: fixed; inset: 0; background-color: var(--bg-deep); display: flex; justify-content: center; align-items: center; z-index: 50000; transition: opacity 0.8s ease-out, visibility 0.8s; }
+        .logo-mask-pre { width: 65px; height: 65px; background-color: #ffffff; -webkit-mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat; mask: url('img/Simbolo-rossini-b.png') center/contain no-repeat; animation: pulse 2s infinite alternate; }
+        @keyframes pulse { from { transform: scale(1); opacity: 0.8; } to { transform: scale(1.1); opacity: 1; } }
         body.loaded #preloader { opacity: 0; visibility: hidden; }
 
-        .main-wrapper { 
-            position: relative; z-index: 10; opacity: 0; transform: translateY(10px); 
-            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1) 1.5s; 
-            width: 80%; 
-            height: 70vh; 
-            display: flex; flex-direction: column; align-items: flex-start; 
-            padding-top: calc(4vh + env(safe-area-inset-top)); 
-            box-sizing: border-box;
+        /* --- DESKTOP SIGNATURE CANVAS --- */
+        @media (min-width: 1025px) {
+            .lux-container { display: grid; grid-template-columns: 1fr 500px; width: 100%; height: 100vh; background: #0a0c12; }
+            .lux-brand-side { position: relative; display: flex; flex-direction: column; justify-content: center; padding: 120px; overflow: hidden; background: radial-gradient(circle at 30% 30%, #1b1f2b 0%, #0a0c12 100%); }
+            .lux-brand-side::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(198,167,99,0.03) 180deg, transparent 360deg); animation: rotateLight 15s linear infinite; pointer-events: none; }
+            @keyframes rotateLight { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+            .lux-logo { width: 220px; margin-bottom: 40px; filter: brightness(0) invert(1); z-index: 5; opacity: 0; transform: translateY(-20px); transition: 1s 1s forwards; }
+            body.loaded .lux-logo { opacity: 1; transform: translateY(0); }
+            .lux-hero-h1 { font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; color: #fff; text-transform: uppercase; line-height: 0.85; z-index: 5; letter-spacing: -2px; }
+            .lux-hero-h1 span { display: block; font-weight: 200; font-size: 0.7em; margin-top: 15px; letter-spacing: 2px; background: linear-gradient(90deg, #c6a763, #fff, #c6a763); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; }
+            @keyframes shine { to { background-position: 200% center; } }
+            .lux-nav-side { background: rgba(255,255,255,0.03); backdrop-filter: blur(40px); border-left: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; justify-content: center; padding: 0; }
+            .lux-nav-item { position: relative; padding: 60px 50px; cursor: pointer; transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .lux-nav-item:hover { background: rgba(198,167,99,0.05); padding-left: 70px; }
+            .lux-label { font-size: 1.2rem; font-weight: 200; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 4px; transition: 0.5s; }
+            .lux-nav-item:hover .lux-label { color: #fff; letter-spacing: 8px; font-weight: 400; }
+            .lux-icon-wrap { width: 50px; height: 50px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.5s; }
+            .lux-nav-item:hover .lux-icon-wrap { border-color: var(--gold-brand); background: var(--gold-brand); box-shadow: 0 0 30px var(--gold-glow); }
+            .lux-nav-item i { color: #fff; font-size: 1.1rem; transition: 0.4s; }
+            .lux-piva { position: absolute; bottom: 40px; right: 40px; color: rgba(255,255,255,0.2); font-size: 0.65rem; letter-spacing: 4px; }
+            .standard-content-box { display: none; }
         }
-        body.loaded .main-wrapper { opacity: 1; transform: translateY(0); }
 
-        /* --- BLOCCO INTESTAZIONE (LOGO + PIVA) --- */
-        .header-block { margin-bottom: 4vh; width: 100%; text-align: left; }
-        .logo { width: clamp(100px, 15vh, 130px); height: auto; }
-        .piva-text { font-size: 0.6rem; color: #888; letter-spacing: 1px; margin-top: 5px; font-weight: 300; }
-        
-        /* --- TESTI CON SPAZI RIDOTTI --- */
-        .text-block-1 { margin-bottom: 3.2vh; }
-        h1 { margin: 0; font-size: clamp(1.1rem, 3.2vh, 1.45rem); font-weight: 600; color: #000; text-transform: uppercase; line-height: 1.2; max-width: 250px; }
-        .subtitle-top { font-size: clamp(0.7rem, 1.7vh, 0.8rem); font-weight: 300; color: #666; margin: 2px 0 0; }
-        
-        .text-block-2 { margin-bottom: 3.2vh; }
-        .section-title { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 600; color: #000; margin-bottom: 0px; }
-        .subtitle-main { 
-            font-size: clamp(0.75rem, 1.8vh, 0.8rem); 
-            font-weight: 300; color: #000; line-height: 1.4; margin-top: 2px;
-            max-width: 220px;
+        /* --- MOBILE STANDARD (FIXED WIDTH) --- */
+        @media (max-width: 1024px) {
+            .lux-container { display: none; }
+            body { display: flex; justify-content: center; align-items: flex-start; }
+            .bottom-pattern { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; height: 25vh; background-image: url('img/pattern-1.png'); background-size: contain; background-position: bottom center; background-repeat: no-repeat; z-index: 1; pointer-events: none; }
+            
+            .standard-content-box { 
+                position: relative; z-index: 10; opacity: 0; width: 80% !important; height: 100vh; 
+                display: flex; flex-direction: column; align-items: stretch !important; /* Forza i figli ad allargarsi */
+                padding-top: calc(4vh + env(safe-area-inset-top)); box-sizing: border-box; 
+                transition: all 1s cubic-bezier(0.22, 1, 0.36, 1) 1.5s; 
+            }
+            body.loaded .standard-content-box { opacity: 1; }
+
+            .header-block { margin-bottom: 4vh; width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
+            .logo-mobile { width: clamp(100px, 15vh, 130px); height: auto; }
+            .piva-mobile { font-size: 0.6rem; color: #888; letter-spacing: 1px; margin-top: 5px; font-weight: 300; }
+            
+            .text-block-1 { margin-bottom: 3.2vh; width: 100%; }
+            h1 { margin: 0; font-size: clamp(1.1rem, 3.2vh, 1.45rem); font-weight: 600; color: #000; text-transform: uppercase; line-height: 1.25; }
+            .subtitle-top { font-size: clamp(0.7rem, 1.7vh, 0.8rem); font-weight: 300; color: #666; margin: 2px 0 0; }
+            
+            .text-block-2 { margin-bottom: 3.2vh; width: 100%; }
+            .section-title { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 600; color: #000; }
+            .subtitle-main { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 300; color: #000; line-height: 1.4; margin-top: 2px; }
+            
+            .btn-label { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 600; color: #000; margin-bottom: 8px; text-transform: lowercase; }
+            .btn-container { display: flex; flex-direction: column; gap: 1.2vh; width: 100%; }
+            
+            /* Tasti Mobile - Forza 100% della larghezza container */
+            .btn { 
+                position: relative; display: flex; align-items: center; justify-content: center; 
+                padding: 1.4vh 0; border-radius: 16px; border: 0.6px solid #000; 
+                background-color: var(--custom-bg); color: #000; font-size: 0.9rem; 
+                font-weight: 300; cursor: pointer; transition: 0.3s; z-index: 10; 
+                width: 100% !important; box-sizing: border-box; 
+            }
+            .btn i { margin-right: 12px; width: 20px; text-align: center; }
+
+            /* Neon Effect */
+            .glow-cloud { position: absolute; inset: 0; border-radius: 16px; z-index: -2; opacity: 0; transition: opacity 0.5s; }
+            .neon-border { position: absolute; inset: -2px; border-radius: 18px; padding: 2px; z-index: -1; opacity: 0; overflow: hidden; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+            .neon-border::before { content: ''; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: conic-gradient(from var(--angle), var(--c1), var(--c2), var(--c1)); animation: rotateAngle 1.5s linear infinite; }
+            @keyframes rotateAngle { to { --angle: 360deg; } }
+            @keyframes neonMaster { 0%, 25%, 100% { opacity: 0; } 5%, 20% { opacity: 1; } }
+            @keyframes glowCloudMaster { 0%, 25%, 100% { opacity: 0; } 5%, 20% { opacity: 1; box-shadow: 0 0 10px 3px var(--glow-color); } }
+            
+            body.loaded .btn:nth-child(1) .neon-border { animation: neonMaster 9s infinite 3s; --c1: #25D366; --c2: #128C7E; }
+            body.loaded .btn:nth-child(1) .glow-cloud { animation: glowCloudMaster 9s infinite 3s; --glow-color: rgba(37, 211, 102, 0.25); }
+            body.loaded .btn:nth-child(2) .neon-border { animation: neonMaster 9s infinite 6s; --c1: #ea4335; --c2: #7b1b14; }
+            body.loaded .btn:nth-child(2) .glow-cloud { animation: glowCloudMaster 9s infinite 6s; --glow-color: rgba(234, 67, 53, 0.25); }
+            body.loaded .btn:nth-child(3) .neon-border { animation: neonMaster 9s infinite 9s; --c1: #004a99; --c2: #001a33; }
+            body.loaded .btn:nth-child(3) .glow-cloud { animation: glowCloudMaster 9s infinite 9s; --glow-color: rgba(0, 74, 153, 0.25); }
         }
-        
-        .content-group { width: 100%; }
-        .btn-label { font-size: clamp(0.75rem, 1.8vh, 0.8rem); font-weight: 600; color: #000; margin-bottom: 8px; text-transform: lowercase; }
 
-        /* --- BOTTONI (80% container) --- */
-        .btn-container { display: flex; flex-direction: column; gap: 1.2vh; width: 100%; }
-        .btn {
-            position: relative; display: flex; align-items: center; justify-content: center;
-            padding: 1.4vh 15px; border-radius: 16px; border: 0.6px solid #000; 
-            background-color: var(--custom-bg); color: #000; 
-            font-size: 0.9rem; font-weight: 300; letter-spacing: 0.5px;
-            cursor: pointer; transition: all 0.3s; z-index: 10; width: 100%; box-sizing: border-box;
-        }
-        .btn i { margin-right: 12px; font-size: 0.9rem; width: 20px; text-align: center; }
-
-        /* --- OVERLAY --- */
-        #overlay-content { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.5s; background: rgba(0,0,0,0.05); }
-        .close-overlay { position: absolute; top: 40px; right: 30px; color: white; font-size: 2.2rem; cursor: pointer; z-index: 10001; opacity: 0; transform: scale(0.5); user-select: none; pointer-events: none; }
-        #overlay-content.active .close-overlay { animation: syncFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.2s; pointer-events: auto; }
-        @keyframes syncFadeIn { to { opacity: 1; transform: scale(1); } }
-        .flip-card { position: relative; width: 90px; height: 90px; transition: transform 0.6s ease; transform-style: preserve-3d; opacity: 0; transform: scale(0.5); }
-        .flip-card.show-logo { opacity: 1; transform: scale(1); }
-        .flip-card.is-flipped { transform: rotateY(180deg) scale(1.1); }
-        .flip-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; }
-        .flip-front img { width: 90%; }
-        .flip-back i { font-size: 60px; color: #fff !important; }
-
-        .fa-phone-custom { color: transparent !important; -webkit-text-stroke: 1.2px #000; font-weight: 900; }
-        .btn.clicked-state { border-color: transparent; color: #fff; }
+        /* --- OVERLAY & FLIP CORRETTO --- */
         #ripple { position: fixed; width: 1px; height: 1px; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%) scale(0); transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         #ripple.expanding { transform: translate(-50%, -50%) scale(4500); }
-
-        /* --- NEON --- */
-        .glow-cloud { position: absolute; inset: 0; border-radius: 16px; z-index: -2; opacity: 0; transition: opacity 0.5s; }
-        .neon-border { position: absolute; inset: -2px; border-radius: 18px; padding: 2px; z-index: -1; opacity: 0; overflow: hidden; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
-        .neon-border::before { content: ''; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: conic-gradient(from var(--angle), var(--c1), var(--c2), var(--c1)); animation: rotateAngle 1.5s linear infinite; }
-        @keyframes rotateAngle { to { --angle: 360deg; } }
-        @keyframes neonMaster { 0%, 25%, 100% { opacity: 0; } 5%, 20% { opacity: 1; } }
-        @keyframes glowCloudMaster { 0%, 25%, 100% { opacity: 0; box-shadow: none; } 5%, 20% { opacity: 1; box-shadow: 0 0 10px 3px var(--glow-color); } }
-        body.loaded .btn:nth-child(1) .neon-border { animation: neonMaster 9s infinite 3s; --c1: #25D366; --c2: #128C7E; }
-        body.loaded .btn:nth-child(1) .glow-cloud { animation: glowCloudMaster 9s infinite 3s; --glow-color: rgba(37, 211, 102, 0.25); }
-        body.loaded .btn:nth-child(2) .neon-border { animation: neonMaster 9s infinite 6s; --c1: #ea4335; --c2: #7b1b14; }
-        body.loaded .btn:nth-child(2) .glow-cloud { animation: glowCloudMaster 9s infinite 6s; --glow-color: rgba(234, 67, 53, 0.25); }
-        body.loaded .btn:nth-child(3) .neon-border { animation: neonMaster 9s infinite 9s; --c1: #004a99; --c2: #001a33; }
-        body.loaded .btn:nth-child(3) .glow-cloud { animation: glowCloudMaster 9s infinite 9s; --glow-color: rgba(0, 74, 153, 0.25); }
+        #overlay-content { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; z-index: 10000; opacity: 0; transition: opacity 0.5s; background: rgba(0,0,0,0.1); }
+        #overlay-content.active { display: flex; opacity: 1; }
+        .close-overlay { position: absolute; top: 40px; right: 40px; color: white; font-size: 2.5rem; cursor: pointer; z-index: 10005; }
+        .flip-container { position: relative; width: 100px; height: 100px; perspective: 1000px; z-index: 10000; opacity: 0; transform: scale(0.5); transition: all 0.5s ease; }
+        .flip-container.show-logo { opacity: 1; transform: scale(1); }
+        .flip-card { position: relative; width: 100%; height: 100%; transition: transform 1.0s cubic-bezier(0.645, 0.045, 0.355, 1); transform-style: preserve-3d; }
+        .flip-card.is-flipped { transform: rotateY(180deg) scale(1.1); }
+        .flip-face { position: absolute; inset: 0; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; }
+        .flip-front img { width: 80%; height: 80%; object-fit: contain; filter: brightness(0) invert(1); }
+        .flip-back { transform: rotateY(180deg); }
+        .flip-back i { font-size: 65px; color: white !important; }
+        .clicked-state { border-color: transparent !important; color: #fff !important; }
     </style>
 </head>
 <body>
 
-    <div id="preloader"><div class="loader-wrap"><div class="back-glow"></div><div class="logo-mask"></div></div></div>
-    
-    <div class="bottom-pattern"></div>
+    <div id="preloader"><div class="logo-mask-pre"></div></div>
     <div id="ripple"></div>
 
-    <div class="main-wrapper">
+    <div class="lux-container">
+        <main class="lux-brand-side">
+            <img src="img/logo-rossini-orizzontale.png" class="lux-logo">
+            <h1 class="lux-hero-h1">Smart Industry<span>High-End Solutions</span></h1>
+        </main>
+        <aside class="lux-nav-side">
+            <div class="lux-nav-item" onclick="launchApp('tel:3470780437', this, 'var(--grad-tl)', 'fas fa-phone')">
+                <span class="lux-label">Direct Line</span>
+                <div class="lux-icon-wrap"><i class="fas fa-phone"></i></div>
+            </div>
+            <div class="lux-nav-item" onclick="launchApp('mailto:rossinisalvatore7@gmail.com', this, 'var(--grad-em)', 'far fa-envelope')">
+                <span class="lux-label">Email Hub</span>
+                <div class="lux-icon-wrap"><i class="far fa-envelope"></i></div>
+            </div>
+            <div class="lux-nav-item" onclick="launchApp('mailto:rossinismart@pec.it', this, 'var(--grad-pc)', 'far fa-envelope-open')">
+                <span class="lux-label">Legal PEC</span>
+                <div class="lux-icon-wrap"><i class="far fa-envelope-open"></i></div>
+            </div>
+            <div class="lux-piva">P.IVA 04235680362 | ROSSINI SMART INDUSTRY</div>
+        </aside>
+    </div>
+
+    <div class="standard-content-box">
+        <div class="bottom-pattern"></div>
         <div class="header-block">
-            <img src="img/logo-rossini-orizzontale.png" class="logo" alt="Rossini">
-            <div class="piva-text">P.IVA 04235680362</div>
+            <img src="img/logo-rossini-orizzontale.png" class="logo-mobile">
+            <div class="piva-mobile">P.IVA 04235680362</div>
         </div>
-        
         <div class="text-block-1">
-            <h1>SOLUZIONI EFFICACI PER LA TUA REALTà</h1>
+            <h1>SOLUZIONI<br>EFFICACI PER LA<br>TUA REALTÀ</h1>
             <p class="subtitle-top">Innovazione e tecnologia</p>
         </div>
-
         <div class="text-block-2">
             <p class="section-title">Contatto Diretto</p>
-            <p class="subtitle-main">Realizziamo la migliore soluzione per la tua azienda</p>
+            <p class="subtitle-main">Realizziamo la migliore soluzione<br>per la tua azienda</p>
         </div>
-
         <div class="content-group">
-            <p class="btn-label">contattami</p>
+            <div class="btn-label">contattami</div>
             <div class="btn-container">
-                <div class="btn tl" onclick="launchApp('tel:3470780437', this, 'var(--grad-tl)', 'fas fa-phone')">
-                    <div class="glow-cloud"></div><div class="neon-border"></div>
-                    <i class="fas fa-phone fa-phone-custom"></i> TELEFONO
-                </div>
-                <div class="btn em" onclick="launchApp('mailto:rossinisalvatore7@gmail.com', this, 'var(--grad-em)', 'far fa-envelope')">
-                    <div class="glow-cloud"></div><div class="neon-border"></div>
-                    <i class="far fa-envelope"></i> EMAIL
-                </div>
-                <div class="btn pc" onclick="launchApp('mailto:rossinismart@pec.it', this, 'var(--grad-pc)', 'far fa-envelope-open')">
-                    <div class="glow-cloud"></div><div class="neon-border"></div>
-                    <i class="far fa-envelope-open"></i> PEC
-                </div>
+                <div class="btn" onclick="launchApp('tel:3470780437', this, 'var(--grad-tl)', 'fas fa-phone')"><div class="glow-cloud"></div><div class="neon-border"></div><i class="fas fa-phone"></i> TELEFONO</div>
+                <div class="btn" onclick="launchApp('mailto:rossinisalvatore7@gmail.com', this, 'var(--grad-em)', 'far fa-envelope')"><div class="glow-cloud"></div><div class="neon-border"></div><i class="far fa-envelope"></i> EMAIL</div>
+                <div class="btn" onclick="launchApp('mailto:rossinismart@pec.it', this, 'var(--grad-pc)', 'far fa-envelope-open')"><div class="glow-cloud"></div><div class="neon-border"></div><i class="far fa-envelope-open"></i> PEC</div>
             </div>
         </div>
     </div>
 
     <div id="overlay-content">
         <div class="close-overlay" onclick="resetPage()"><i class="fas fa-times"></i></div>
-        <div class="flip-card" id="card">
-            <div class="flip-face flip-front"><img src="img/Simbolo-rossini-b.png"></div>
-            <div class="flip-face flip-back" style="transform: rotateY(180deg);"><i id="overlay-icon"></i></div>
+        <div class="flip-container" id="flip-cont">
+            <div class="flip-card" id="card">
+                <div class="flip-face flip-front"><img src="img/Simbolo-rossini-b.png"></div>
+                <div class="flip-face flip-back"><i id="overlay-icon"></i></div>
+            </div>
         </div>
     </div>
 
     <script>
-        window.addEventListener('load', () => { setTimeout(() => { document.body.classList.add('loaded'); }, 2500); });
+        window.addEventListener('load', () => { setTimeout(() => { document.body.classList.add('loaded'); }, 2000); });
         let appTimer;
         function launchApp(url, btn, gradient, iconClass) {
             const ripple = document.getElementById('ripple');
             const overlay = document.getElementById('overlay-content');
             const card = document.getElementById('card');
+            const flipCont = document.getElementById('flip-cont');
             const overlayIcon = document.getElementById('overlay-icon');
+            
+            if(window.innerWidth <= 1024) {
+                btn.classList.add('clicked-state');
+                btn.style.background = gradient.includes('tl') ? 'var(--grad-tl)' : gradient.includes('pc') ? 'var(--grad-pc)' : 'var(--grad-em)';
+            }
+            
             const rect = btn.getBoundingClientRect();
-            btn.style.borderColor = "transparent";
-            btn.classList.add('clicked-state');
-            if(gradient.includes('tl')) btn.style.background = 'var(--grad-tl)';
-            if(gradient.includes('pc')) btn.style.background = 'var(--grad-pc)';
-            if(gradient.includes('em')) btn.style.background = 'var(--grad-em)';
+            ripple.style.left = (rect.left + rect.width / 2) + 'px';
+            ripple.style.top = (rect.top + rect.height / 2) + 'px';
+            const gradValue = getComputedStyle(document.documentElement).getPropertyValue(gradient.replace('var(','').replace(')','')).trim();
+            ripple.style.background = gradValue;
+            ripple.classList.add('expanding');
+            
             setTimeout(() => {
-                ripple.style.left = (rect.left + rect.width / 2) + 'px';
-                ripple.style.top = (rect.top + rect.height / 2) + 'px';
-                const gradValue = getComputedStyle(document.documentElement).getPropertyValue(gradient.replace('var(','').replace(')',''));
-                ripple.style.background = gradValue;
-                ripple.classList.add('expanding');
-                setTimeout(() => {
-                    overlay.style.display = 'flex';
-                    overlay.classList.add('active');
-                    overlayIcon.className = iconClass;
-                    setTimeout(() => { overlay.style.opacity = '1'; card.classList.add('show-logo'); }, 50);
-                    setTimeout(() => { card.classList.add('is-flipped'); appTimer = setTimeout(() => { window.location.href = url; }, 1500); }, 600);
-                }, 400);
-            }, 300); 
+                overlay.style.display = 'flex'; overlayIcon.className = iconClass;
+                setTimeout(() => { 
+                    overlay.classList.add('active'); flipCont.classList.add('show-logo'); 
+                    setTimeout(() => { card.classList.add('is-flipped'); appTimer = setTimeout(() => { window.location.href = url; }, 1500); }, 1000); 
+                }, 50);
+            }, 400);
         }
+
         function resetPage() {
             clearTimeout(appTimer);
-            const overlay = document.getElementById('overlay-content');
-            overlay.style.opacity = '0';
-            overlay.classList.remove('active');
+            document.getElementById('overlay-content').classList.remove('active');
             setTimeout(() => {
-                overlay.style.display = 'none';
+                document.getElementById('overlay-content').style.display = 'none';
                 document.getElementById('ripple').classList.remove('expanding');
-                document.getElementById('card').classList.remove('is-flipped', 'show-logo');
-                document.querySelectorAll('.btn').forEach(b => {
-                    b.classList.remove('clicked-state');
-                    b.style.background = 'var(--custom-bg)';
-                    b.style.borderColor = "#000";
-                });
+                document.getElementById('card').classList.remove('is-flipped');
+                document.getElementById('flip-cont').classList.remove('show-logo');
+                document.querySelectorAll('.btn').forEach(b => { b.classList.remove('clicked-state'); b.style.background = 'var(--custom-bg)'; });
             }, 500);
         }
     </script>
